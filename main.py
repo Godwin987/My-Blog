@@ -12,17 +12,20 @@ from sqlalchemy import Table, Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship, declarative_base
 from flask_migrate import Migrate
 import os
+from dotenv import load_dotenv
+
+load_dotenv()  # take environment variables from .env.
 
 # Base = declarative_base()
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
+app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 ckeditor = CKEditor(app)
 Bootstrap5(app)
 
 ##CONNECT TO DB
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", "sqlite:///blog.db")
-# postgres://blog_data_rxkz_user:cOwXti1ydNSaLI0TEnO0bMIccDYnHlKT@dpg-ci71bsp8g3n3vm4o95r0-a.oregon-postgres.render.com/blog_data_rxkz
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL", "sqlite:///blog.db")
+# postgresql://blog_data_rxkz_user:cOwXti1ydNSaLI0TEnO0bMIccDYnHlKT@dpg-ci71bsp8g3n3vm4o95r0-a.oregon-postgres.render.com/blog_data_rxkz
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy()
 db.init_app(app)
