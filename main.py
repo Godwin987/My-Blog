@@ -25,6 +25,7 @@ Bootstrap5(app)
 
 ##CONNECT TO DB
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
+# , default="sqlite:///blog.db"
 # postgresql://blog_data_rxkz_user:cOwXti1ydNSaLI0TEnO0bMIccDYnHlKT@dpg-ci71bsp8g3n3vm4o95r0-a.oregon-postgres.render.com/blog_data_rxkz
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy()
@@ -85,8 +86,8 @@ class BlogPost(db.Model):
     title = db.Column(db.String(250), unique=True, nullable=False)
     subtitle = db.Column(db.String(250), nullable=False)
     date = db.Column(db.String(250), nullable=False)
-    body = db.Column(db.Text, nullable=False)
-    img_url = db.Column(db.String(250), nullable=False)
+    body = db.Column(db.Text(10485760), nullable=False)
+    img_url = db.Column(db.Text(108600), nullable=False)
     user_id = db.Column(db.Integer, ForeignKey('users.id'))
     comment = db.relationship('Comment', backref='blog_posts')
 
